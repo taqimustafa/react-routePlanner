@@ -27751,6 +27751,10 @@
 	
 	var _SidebarList2 = _interopRequireDefault(_SidebarList);
 	
+	var _Maps = __webpack_require__(241);
+	
+	var _Maps2 = _interopRequireDefault(_Maps);
+	
 	var _Footer = __webpack_require__(237);
 	
 	var _Footer2 = _interopRequireDefault(_Footer);
@@ -27763,7 +27767,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var globalState = {};
+	var that;
 	
 	var HomePage = function (_Component) {
 		_inherits(HomePage, _Component);
@@ -27771,45 +27775,22 @@
 		function HomePage(props, context) {
 			_classCallCheck(this, HomePage);
 	
-			var _this = _possibleConstructorReturn(this, (HomePage.__proto__ || Object.getPrototypeOf(HomePage)).call(this, props, context));
+			var _this = _possibleConstructorReturn(this, (HomePage.__proto__ || Object.getPrototypeOf(HomePage)).call(this));
 	
 			_this.state = {
 				origin: null,
-				destination: null,
-				directionService: null,
-				directionsDisplay: null,
-				map: null
+				destination: null
 			};
+			that = _this;
 			return _this;
 		}
 	
 		_createClass(HomePage, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {
-				this.state.directionsService = new google.maps.DirectionsService();
-				this.state.directionsDisplay = new google.maps.DirectionsRenderer();
-				this.state.map = new google.maps.Map(document.getElementById('map'), {
-					center: { lat: -34.397, lng: 150.644 },
-					zoom: 8
-				});
-				console.log(this.state);
-				this.state.directionsDisplay.setMap(this.state.map);
-				globalState = this.state;
-			}
-		}, {
-			key: 'calculateAndDisplayRoute',
-			value: function calculateAndDisplayRoute(origin, destination) {
-				console.log(globalState);
-				globalState.directionsService.route({
+			key: 'updateLocation',
+			value: function updateLocation(origin, destination) {
+				that.setState({
 					origin: origin,
-					destination: destination,
-					travelMode: 'DRIVING'
-				}, function (response, status) {
-					if (status === 'OK') {
-						globalState.directionsDisplay.setDirections(response);
-					} else {
-						window.alert('Directions request failed due to ' + status);
-					}
+					destination: destination
 				});
 			}
 		}, {
@@ -27825,9 +27806,9 @@
 						_react2.default.createElement(
 							'div',
 							{ className: 'map' },
-							_react2.default.createElement('div', { id: 'map' })
+							_react2.default.createElement(_Maps2.default, { location: this.state })
 						),
-						_react2.default.createElement(_SidebarList2.default, { calc: this.calculateAndDisplayRoute })
+						_react2.default.createElement(_SidebarList2.default, { updateState: this.updateLocation })
 					),
 					_react2.default.createElement(_Footer2.default, null)
 				);
@@ -27843,7 +27824,7 @@
 /* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 			value: true
@@ -27881,171 +27862,177 @@
 			}
 	
 			_createClass(SidebarList, [{
-					key: "handleOriginChange",
+					key: 'componentDidMount',
+					value: function componentDidMount() {
+							var autocompleteOrigin = new google.maps.places.Autocomplete(document.getElementById('origin'));
+							var autocompleteDestination = new google.maps.places.Autocomplete(document.getElementById('destination'));
+					}
+			}, {
+					key: 'handleOriginChange',
 					value: function handleOriginChange(e) {
 							this.state.origin = e.target.value;
 					}
 			}, {
-					key: "handleDestinationChange",
+					key: 'handleDestinationChange',
 					value: function handleDestinationChange(e) {
 							this.state.destination = e.target.value;
 					}
 			}, {
-					key: "handleSubmitEvent",
+					key: 'handleSubmitEvent',
 					value: function handleSubmitEvent(e) {
-							this.props.calc(this.state.origin, this.state.destination);
+							this.props.updateState(this.state.origin, this.state.destination);
 					}
 			}, {
-					key: "render",
+					key: 'render',
 					value: function render() {
 							return _react2.default.createElement(
-									"div",
-									{ className: "items-list" },
+									'div',
+									{ className: 'items-list' },
 									_react2.default.createElement(
-											"div",
-											{ className: "inner" },
+											'div',
+											{ className: 'inner' },
 											_react2.default.createElement(
-													"div",
-													{ className: "filter" },
+													'div',
+													{ className: 'filter' },
 													_react2.default.createElement(
-															"header",
-															{ className: "clearfix" },
+															'header',
+															{ className: 'clearfix' },
 															_react2.default.createElement(
-																	"h3",
-																	{ className: "pull-left" },
-																	"Plan Route"
+																	'h3',
+																	{ className: 'pull-left' },
+																	'Plan Route'
 															)
 													),
 													_react2.default.createElement(
-															"div",
-															{ className: "row" },
+															'div',
+															{ className: 'row' },
 															_react2.default.createElement(
-																	"div",
-																	{ className: "col-md-12 col-sm-12" },
+																	'div',
+																	{ className: 'col-md-12 col-sm-12' },
 																	_react2.default.createElement(
-																			"div",
-																			{ className: "form-group" },
+																			'div',
+																			{ className: 'form-group' },
 																			_react2.default.createElement(
-																					"label",
-																					{ htmlFor: "location" },
-																					"Start Location"
+																					'label',
+																					{ htmlFor: 'location' },
+																					'Start Location'
 																			),
 																			_react2.default.createElement(
-																					"div",
-																					{ className: "input-group location" },
-																					_react2.default.createElement("input", { type: "text", className: "form-control", onChange: this.handleOriginChange.bind(this), placeholder: "Enter Start Address" }),
+																					'div',
+																					{ className: 'input-group location' },
+																					_react2.default.createElement('input', { id: 'origin', type: 'text', className: 'form-control', onChange: this.handleOriginChange.bind(this), placeholder: 'Enter Start Address' }),
 																					_react2.default.createElement(
-																							"span",
-																							{ className: "input-group-addon" },
-																							_react2.default.createElement("i", { className: "fa fa-map-marker geolocation" })
+																							'span',
+																							{ className: 'input-group-addon' },
+																							_react2.default.createElement('i', { className: 'fa fa-map-marker geolocation' })
 																					)
 																			)
 																	)
 															),
 															_react2.default.createElement(
-																	"div",
-																	{ id: "waypoint-container", style: { display: 'none' } },
+																	'div',
+																	{ id: 'waypoint-container', style: { display: 'none' } },
 																	_react2.default.createElement(
-																			"div",
-																			{ className: "col-md-12 col-sm-12" },
+																			'div',
+																			{ className: 'col-md-12 col-sm-12' },
 																			_react2.default.createElement(
-																					"div",
-																					{ className: "form-group" },
+																					'div',
+																					{ className: 'form-group' },
 																					_react2.default.createElement(
-																							"label",
-																							{ htmlFor: "location" },
-																							"Via"
+																							'label',
+																							{ htmlFor: 'location' },
+																							'Via'
 																					),
-																					_react2.default.createElement("div", { id: "waypoint-list" })
+																					_react2.default.createElement('div', { id: 'waypoint-list' })
 																			)
 																	)
 															),
 															_react2.default.createElement(
-																	"div",
-																	{ className: "col-md-12 col-sm-12" },
+																	'div',
+																	{ className: 'col-md-12 col-sm-12' },
 																	_react2.default.createElement(
-																			"div",
-																			{ className: "form-group" },
+																			'div',
+																			{ className: 'form-group' },
 																			_react2.default.createElement(
-																					"label",
-																					{ htmlFor: "location" },
-																					"End Location"
+																					'label',
+																					{ htmlFor: 'location' },
+																					'End Location'
 																			),
 																			_react2.default.createElement(
-																					"div",
-																					{ className: "input-group location" },
-																					_react2.default.createElement("input", { type: "text", className: "form-control", onChange: this.handleDestinationChange.bind(this), placeholder: "Enter Destination Address" }),
+																					'div',
+																					{ className: 'input-group location' },
+																					_react2.default.createElement('input', { id: 'destination', type: 'text', className: 'form-control', onChange: this.handleDestinationChange.bind(this), placeholder: 'Enter Destination Address' }),
 																					_react2.default.createElement(
-																							"span",
-																							{ className: "input-group-addon" },
-																							_react2.default.createElement("i", { className: "fa fa-map-marker geolocation" })
+																							'span',
+																							{ className: 'input-group-addon' },
+																							_react2.default.createElement('i', { className: 'fa fa-map-marker geolocation' })
 																					)
 																			)
 																	)
 															),
 															_react2.default.createElement(
-																	"div",
-																	{ className: "col-md-12 col-sm-12" },
+																	'div',
+																	{ className: 'col-md-12 col-sm-12' },
 																	_react2.default.createElement(
-																			"div",
-																			{ className: "form-group" },
+																			'div',
+																			{ className: 'form-group' },
 																			_react2.default.createElement(
-																					"label",
-																					{ htmlFor: "location" },
-																					"Waypoints"
+																					'label',
+																					{ htmlFor: 'location' },
+																					'Waypoints'
 																			),
 																			_react2.default.createElement(
-																					"div",
-																					{ className: "input-group location", style: { width: '100%' } },
-																					_react2.default.createElement("input", { type: "text", style: { width: '100%' }, className: "form-control", defaultValue: "Gas Station", id: "waypoint", placeholder: "Enter Type" })
+																					'div',
+																					{ className: 'input-group location', style: { width: '100%' } },
+																					_react2.default.createElement('input', { type: 'text', style: { width: '100%' }, className: 'form-control', defaultValue: 'Gas Station', id: 'waypoint', placeholder: 'Enter Type' })
 																			)
 																	)
 															),
 															_react2.default.createElement(
-																	"div",
-																	{ className: "col-md-12 col-sm-12" },
+																	'div',
+																	{ className: 'col-md-12 col-sm-12' },
 																	_react2.default.createElement(
-																			"div",
-																			{ className: "form-group" },
+																			'div',
+																			{ className: 'form-group' },
 																			_react2.default.createElement(
-																					"button",
-																					{ style: { width: '100%' }, type: "button", onClick: this.handleSubmitEvent.bind(this), className: "btn btn-default icon" },
-																					"Submit ",
-																					_react2.default.createElement("i", { className: "fa fa-arrow-right" })
+																					'button',
+																					{ style: { width: '100%' }, type: 'button', onClick: this.handleSubmitEvent.bind(this), className: 'btn btn-default icon' },
+																					'Submit ',
+																					_react2.default.createElement('i', { className: 'fa fa-arrow-right' })
 																			)
 																	)
 															)
 													)
 											),
 											_react2.default.createElement(
-													"header",
-													{ className: "clearfix" },
+													'header',
+													{ className: 'clearfix' },
 													_react2.default.createElement(
-															"h3",
-															{ className: "pull-left" },
-															"Results "
+															'h3',
+															{ className: 'pull-left' },
+															'Results '
 													),
 													_react2.default.createElement(
-															"div",
-															{ className: "buttons pull-right" },
+															'div',
+															{ className: 'buttons pull-right' },
 															_react2.default.createElement(
-																	"span",
+																	'span',
 																	null,
-																	"Display: "
+																	'Display: '
 															),
 															_react2.default.createElement(
-																	"span",
-																	{ className: "icon active", id: "display-grid" },
-																	_react2.default.createElement("i", { className: "fa fa-th" })
+																	'span',
+																	{ className: 'icon active', id: 'display-grid' },
+																	_react2.default.createElement('i', { className: 'fa fa-th' })
 															),
 															_react2.default.createElement(
-																	"span",
-																	{ className: "icon", id: "display-list" },
-																	_react2.default.createElement("i", { className: "fa fa-th-list" })
+																	'span',
+																	{ className: 'icon', id: 'display-list' },
+																	_react2.default.createElement('i', { className: 'fa fa-th-list' })
 															)
 													)
 											),
-											_react2.default.createElement("ul", { className: "results grid" })
+											_react2.default.createElement('ul', { className: 'results grid' })
 									)
 							);
 					}
@@ -28055,6 +28042,94 @@
 	}(_react.Component);
 	
 	exports.default = SidebarList;
+
+/***/ },
+/* 241 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var test;
+	
+	var Maps = function (_Component) {
+	  _inherits(Maps, _Component);
+	
+	  function Maps(props, context) {
+	    _classCallCheck(this, Maps);
+	
+	    var _this = _possibleConstructorReturn(this, (Maps.__proto__ || Object.getPrototypeOf(Maps)).call(this, props, context));
+	
+	    _this.state = {
+	      directionService: null,
+	      directionsDisplay: null,
+	      map: null
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(Maps, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.state.directionsService = new google.maps.DirectionsService();
+	      this.state.directionsDisplay = new google.maps.DirectionsRenderer();
+	      this.state.map = new google.maps.Map(document.getElementById('map'), {
+	        center: { lat: -34.397, lng: 150.644 },
+	        zoom: 8
+	      });
+	      this.state.directionsDisplay.setMap(this.state.map);
+	    }
+	  }, {
+	    key: 'calculateAndDisplayRoute',
+	    value: function calculateAndDisplayRoute(origin, destination) {
+	      var that = this;
+	      if (this.state.directionsService) {
+	        this.state.directionsService.route({
+	          origin: origin,
+	          destination: destination,
+	          travelMode: 'DRIVING'
+	        }, function (response, status) {
+	          if (status === 'OK') {
+	            that.state.directionsDisplay.setDirections(response);
+	          } else {
+	            window.alert('Directions request failed due to ' + status);
+	          }
+	        });
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      this.calculateAndDisplayRoute(this.props.location.origin, this.props.location.destination);
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement('div', { id: 'map' })
+	      );
+	    }
+	  }]);
+	
+	  return Maps;
+	}(_react.Component);
+	
+	exports.default = Maps;
 
 /***/ }
 /******/ ]);

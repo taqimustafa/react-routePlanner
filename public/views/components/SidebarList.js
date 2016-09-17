@@ -9,6 +9,10 @@ class SidebarList extends Component {
 	    destination: null
 	  };
   }
+  componentDidMount() {
+   	var autocompleteOrigin = new google.maps.places.Autocomplete(document.getElementById('origin'));
+   	var autocompleteDestination = new google.maps.places.Autocomplete(document.getElementById('destination'));
+  }
   handleOriginChange(e) {
    	this.state.origin = e.target.value;
 	}
@@ -16,7 +20,7 @@ class SidebarList extends Component {
    	this.state.destination = e.target.value;
 	}
 	handleSubmitEvent(e){
-		this.props.calc(this.state.origin,this.state.destination);
+		this.props.updateState(this.state.origin,this.state.destination);
 	}
   render() {
     return (
@@ -31,7 +35,7 @@ class SidebarList extends Component {
 	              <div className="form-group">
 	                <label htmlFor="location">Start Location</label>
 	                <div className="input-group location">
-	                  <input type="text" className="form-control" onChange={this.handleOriginChange.bind(this)} placeholder="Enter Start Address" />
+	                  <input id="origin" type="text" className="form-control" onChange={this.handleOriginChange.bind(this)} placeholder="Enter Start Address" />
 	                  <span className="input-group-addon"><i className="fa fa-map-marker geolocation"/></span>
 	                </div>
 	              </div>
@@ -48,7 +52,7 @@ class SidebarList extends Component {
 	              <div className="form-group">
 	                <label htmlFor="location">End Location</label>
 	                <div className="input-group location">
-	                  <input type="text" className="form-control" onChange={this.handleDestinationChange.bind(this)} placeholder="Enter Destination Address" />
+	                  <input id="destination" type="text" className="form-control" onChange={this.handleDestinationChange.bind(this)} placeholder="Enter Destination Address" />
 	                  <span className="input-group-addon"><i className="fa fa-map-marker geolocation"/></span>
 	                </div>
 	              </div>
