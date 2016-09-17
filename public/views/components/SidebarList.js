@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router"
 
-import Maps from './Maps';
-
 class SidebarList extends Component {
 	constructor(props, context) {
     super();
@@ -18,10 +16,7 @@ class SidebarList extends Component {
    	this.state.destination = e.target.value;
 	}
 	handleSubmitEvent(e){
-		//console.log(Maps);
-		this.props.location.origin = this.state.origin;
-		this.props.location.destination = this.state.destination;
-		//Maps.calculateAndDisplayRoute(this.state.origin,this.state.destination);
+		this.props.calc(this.state.origin,this.state.destination);
 	}
   render() {
     return (
