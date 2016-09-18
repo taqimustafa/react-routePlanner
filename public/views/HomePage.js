@@ -10,12 +10,14 @@ class HomePage extends Component {
 	constructor(props, context) {
     super();
 		this.state = {
-	    origin: null,
-	    destination: null
+	    origin: 'islamabad',
+	    destination: 'karachi',
+	    keyword:'gas station'
 	  };
 	  that = this;
   }
 	updateLocation(origin,destination){
+		console.log(origin,destination);
 		that.setState({
 			origin:origin,
 			destination:destination
@@ -27,9 +29,9 @@ class HomePage extends Component {
 				<Header />
 				<div className="map-canvas list-solid">
 					<div className="map">
-						<Maps location={this.state}/>
+						<Maps direction={this.state}/>
 					</div>
-					<SidebarList updateState={this.updateLocation}/>
+					<SidebarList updateState={this.updateLocation} default={this.state}/>
 				</div>
 				<Footer />
 			</div>

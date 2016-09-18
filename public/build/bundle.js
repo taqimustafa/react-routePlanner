@@ -56,13 +56,13 @@
 	
 	var _reactRouter = __webpack_require__(172);
 	
-	var _AboutUs = __webpack_require__(235);
+	var _Login = __webpack_require__(235);
 	
-	var _AboutUs2 = _interopRequireDefault(_AboutUs);
+	var _Login2 = _interopRequireDefault(_Login);
 	
-	var _Contact = __webpack_require__(238);
+	var _Register = __webpack_require__(238);
 	
-	var _Contact2 = _interopRequireDefault(_Contact);
+	var _Register2 = _interopRequireDefault(_Register);
 	
 	var _HomePage = __webpack_require__(239);
 	
@@ -74,10 +74,10 @@
 	
 	_reactDom2.default.render(_react2.default.createElement(
 	  _reactRouter.Router,
-	  { history: _reactRouter.hashHistory },
+	  { history: _reactRouter.browserHistory },
 	  _react2.default.createElement(_reactRouter.Route, { path: '/', component: _HomePage2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/contact', component: _Contact2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _AboutUs2.default })
+	  _react2.default.createElement(_reactRouter.Route, { path: 'register', component: _Register2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'login', component: _Login2.default })
 	), app);
 
 /***/ },
@@ -27432,6 +27432,10 @@
 	
 	var _Footer2 = _interopRequireDefault(_Footer);
 	
+	var _Breadcrumb = __webpack_require__(242);
+	
+	var _Breadcrumb2 = _interopRequireDefault(_Breadcrumb);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27440,31 +27444,99 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var AboutUs = function (_Component) {
-		_inherits(AboutUs, _Component);
+	var Login = function (_Component) {
+		_inherits(Login, _Component);
 	
-		function AboutUs() {
-			_classCallCheck(this, AboutUs);
+		function Login() {
+			_classCallCheck(this, Login);
 	
-			return _possibleConstructorReturn(this, (AboutUs.__proto__ || Object.getPrototypeOf(AboutUs)).apply(this, arguments));
+			return _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).apply(this, arguments));
 		}
 	
-		_createClass(AboutUs, [{
+		_createClass(Login, [{
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
 					'div',
 					null,
 					_react2.default.createElement(_Header2.default, null),
+					_react2.default.createElement(
+						'div',
+						{ id: 'page-canvas' },
+						_react2.default.createElement(_Breadcrumb2.default, null),
+						_react2.default.createElement(
+							'div',
+							{ id: 'page-content' },
+							_react2.default.createElement(
+								'section',
+								{ className: 'container' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'block' },
+									_react2.default.createElement(
+										'div',
+										{ className: 'row' },
+										_react2.default.createElement(
+											'div',
+											{ className: 'col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3' },
+											_react2.default.createElement(
+												'header',
+												null,
+												_react2.default.createElement(
+													'h1',
+													{ className: 'page-title' },
+													'Sign In '
+												)
+											),
+											_react2.default.createElement('hr', null),
+											_react2.default.createElement(
+												'form',
+												{ role: 'form', id: 'form-sign-in-account', method: 'post' },
+												_react2.default.createElement(
+													'div',
+													{ className: 'form-group' },
+													_react2.default.createElement(
+														'label',
+														{ htmlFor: 'form-sign-in-email' },
+														'Email: '
+													),
+													_react2.default.createElement('input', { type: 'email', className: 'form-control', id: 'form-sign-in-email', name: 'form-sign-in-email', required: true })
+												),
+												_react2.default.createElement(
+													'div',
+													{ className: 'form-group' },
+													_react2.default.createElement(
+														'label',
+														{ htmlFor: 'form-sign-in-password' },
+														'Password: '
+													),
+													_react2.default.createElement('input', { type: 'password', className: 'form-control', id: 'form-sign-in-password', name: 'form-sign-in-password', required: true })
+												),
+												_react2.default.createElement(
+													'div',
+													{ className: 'form-group clearfix' },
+													_react2.default.createElement(
+														'button',
+														{ type: 'submit', className: 'btn pull-right btn-default', id: 'account-submit' },
+														'Sign In '
+													)
+												)
+											)
+										)
+									)
+								)
+							)
+						)
+					),
 					_react2.default.createElement(_Footer2.default, null)
 				);
 			}
 		}]);
 	
-		return AboutUs;
+		return Login;
 	}(_react.Component);
 	
-	exports.default = AboutUs;
+	exports.default = Login;
 
 /***/ },
 /* 236 */
@@ -27515,7 +27587,7 @@
 	            { className: "brand" },
 	            _react2.default.createElement(
 	              "a",
-	              { href: "index-real-estate.html" },
+	              { href: "/" },
 	              "Route Planner"
 	            )
 	          ),
@@ -27534,7 +27606,7 @@
 	                  null,
 	                  _react2.default.createElement(
 	                    "a",
-	                    { href: "sign-in.html" },
+	                    { href: "login" },
 	                    "Sign In "
 	                  )
 	                ),
@@ -27543,31 +27615,13 @@
 	                  null,
 	                  _react2.default.createElement(
 	                    "a",
-	                    { href: "register.html" },
+	                    { href: "register" },
 	                    _react2.default.createElement(
 	                      "strong",
 	                      null,
 	                      "Register "
 	                    )
 	                  )
-	                )
-	              ),
-	              _react2.default.createElement(
-	                "a",
-	                { href: "submit.html", className: "submit-item" },
-	                _react2.default.createElement(
-	                  "div",
-	                  { className: "content" },
-	                  _react2.default.createElement(
-	                    "span",
-	                    null,
-	                    "Submit Your Item "
-	                  )
-	                ),
-	                _react2.default.createElement(
-	                  "div",
-	                  { className: "icon" },
-	                  _react2.default.createElement("i", { className: "fa fa-plus" })
 	                )
 	              ),
 	              _react2.default.createElement(
@@ -27693,6 +27747,10 @@
 	
 	var _Footer2 = _interopRequireDefault(_Footer);
 	
+	var _Breadcrumb = __webpack_require__(242);
+	
+	var _Breadcrumb2 = _interopRequireDefault(_Breadcrumb);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27701,31 +27759,129 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Contact = function (_Component) {
-		_inherits(Contact, _Component);
+	var Register = function (_Component) {
+		_inherits(Register, _Component);
 	
-		function Contact() {
-			_classCallCheck(this, Contact);
+		function Register() {
+			_classCallCheck(this, Register);
 	
-			return _possibleConstructorReturn(this, (Contact.__proto__ || Object.getPrototypeOf(Contact)).apply(this, arguments));
+			return _possibleConstructorReturn(this, (Register.__proto__ || Object.getPrototypeOf(Register)).apply(this, arguments));
 		}
 	
-		_createClass(Contact, [{
+		_createClass(Register, [{
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
 					'div',
 					null,
 					_react2.default.createElement(_Header2.default, null),
+					_react2.default.createElement(
+						'div',
+						{ id: 'page-canvas' },
+						_react2.default.createElement(_Breadcrumb2.default, null),
+						_react2.default.createElement(
+							'div',
+							{ id: 'page-content' },
+							_react2.default.createElement(
+								'section',
+								{ className: 'container' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'block' },
+									_react2.default.createElement(
+										'div',
+										{ className: 'row' },
+										_react2.default.createElement(
+											'div',
+											{ className: 'col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3' },
+											_react2.default.createElement(
+												'header',
+												null,
+												_react2.default.createElement(
+													'h1',
+													{ className: 'page-title' },
+													'Register '
+												)
+											),
+											_react2.default.createElement('hr', null),
+											_react2.default.createElement(
+												'form',
+												{ role: 'form', id: 'form-register', method: 'post' },
+												_react2.default.createElement(
+													'div',
+													{ className: 'form-group' },
+													_react2.default.createElement(
+														'label',
+														{ htmlFor: 'form-register-full-name' },
+														'Full Name: '
+													),
+													_react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'form-register-full-name', name: 'form-register-full-name', required: true })
+												),
+												_react2.default.createElement(
+													'div',
+													{ className: 'form-group' },
+													_react2.default.createElement(
+														'label',
+														{ htmlFor: 'form-register-email' },
+														'Email: '
+													),
+													_react2.default.createElement('input', { type: 'email', className: 'form-control', id: 'form-register-email', name: 'form-register-email', required: true })
+												),
+												_react2.default.createElement(
+													'div',
+													{ className: 'form-group' },
+													_react2.default.createElement(
+														'label',
+														{ htmlFor: 'form-register-password' },
+														'Password: '
+													),
+													_react2.default.createElement('input', { type: 'password', className: 'form-control', id: 'form-register-password', name: 'form-register-password', required: true })
+												),
+												_react2.default.createElement(
+													'div',
+													{ className: 'form-group' },
+													_react2.default.createElement(
+														'label',
+														{ htmlFor: 'form-register-confirm-password' },
+														'Confirm Password: '
+													),
+													_react2.default.createElement('input', { type: 'password', className: 'form-control', id: 'form-register-confirm-password', name: 'form-register-confirm-password', required: true })
+												),
+												_react2.default.createElement(
+													'div',
+													{ className: 'checkbox pull-left' },
+													_react2.default.createElement(
+														'label',
+														null,
+														_react2.default.createElement('input', { type: 'checkbox', name: 'newsletter' }),
+														'Receive Newsletter'
+													)
+												),
+												_react2.default.createElement(
+													'div',
+													{ className: 'form-group clearfix' },
+													_react2.default.createElement(
+														'button',
+														{ type: 'submit', className: 'btn pull-right btn-default', id: 'account-submit' },
+														'Create an Account '
+													)
+												)
+											)
+										)
+									)
+								)
+							)
+						)
+					),
 					_react2.default.createElement(_Footer2.default, null)
 				);
 			}
 		}]);
 	
-		return Contact;
+		return Register;
 	}(_react.Component);
 	
-	exports.default = Contact;
+	exports.default = Register;
 
 /***/ },
 /* 239 */
@@ -27778,8 +27934,9 @@
 			var _this = _possibleConstructorReturn(this, (HomePage.__proto__ || Object.getPrototypeOf(HomePage)).call(this));
 	
 			_this.state = {
-				origin: null,
-				destination: null
+				origin: 'islamabad',
+				destination: 'karachi',
+				keyword: 'gas station'
 			};
 			that = _this;
 			return _this;
@@ -27788,6 +27945,7 @@
 		_createClass(HomePage, [{
 			key: 'updateLocation',
 			value: function updateLocation(origin, destination) {
+				console.log(origin, destination);
 				that.setState({
 					origin: origin,
 					destination: destination
@@ -27806,9 +27964,9 @@
 						_react2.default.createElement(
 							'div',
 							{ className: 'map' },
-							_react2.default.createElement(_Maps2.default, { location: this.state })
+							_react2.default.createElement(_Maps2.default, { direction: this.state })
 						),
-						_react2.default.createElement(_SidebarList2.default, { updateState: this.updateLocation })
+						_react2.default.createElement(_SidebarList2.default, { updateState: this.updateLocation, 'default': this.state })
 					),
 					_react2.default.createElement(_Footer2.default, null)
 				);
@@ -27866,6 +28024,10 @@
 					value: function componentDidMount() {
 							var autocompleteOrigin = new google.maps.places.Autocomplete(document.getElementById('origin'));
 							var autocompleteDestination = new google.maps.places.Autocomplete(document.getElementById('destination'));
+							this.setState({
+									origin: this.props.default.origin,
+									destination: this.props.default.destination
+							});
 					}
 			}, {
 					key: 'handleOriginChange',
@@ -27920,7 +28082,7 @@
 																			_react2.default.createElement(
 																					'div',
 																					{ className: 'input-group location' },
-																					_react2.default.createElement('input', { id: 'origin', type: 'text', className: 'form-control', onChange: this.handleOriginChange.bind(this), placeholder: 'Enter Start Address' }),
+																					_react2.default.createElement('input', { id: 'origin', type: 'text', className: 'form-control', defaultValue: this.props.default.origin, onChange: this.handleOriginChange.bind(this), placeholder: 'Enter Start Address' }),
 																					_react2.default.createElement(
 																							'span',
 																							{ className: 'input-group-addon' },
@@ -27961,7 +28123,7 @@
 																			_react2.default.createElement(
 																					'div',
 																					{ className: 'input-group location' },
-																					_react2.default.createElement('input', { id: 'destination', type: 'text', className: 'form-control', onChange: this.handleDestinationChange.bind(this), placeholder: 'Enter Destination Address' }),
+																					_react2.default.createElement('input', { id: 'destination', type: 'text', className: 'form-control', defaultValue: this.props.default.destination, onChange: this.handleDestinationChange.bind(this), placeholder: 'Enter Destination Address' }),
 																					_react2.default.createElement(
 																							'span',
 																							{ className: 'input-group-addon' },
@@ -27984,7 +28146,7 @@
 																			_react2.default.createElement(
 																					'div',
 																					{ className: 'input-group location', style: { width: '100%' } },
-																					_react2.default.createElement('input', { type: 'text', style: { width: '100%' }, className: 'form-control', defaultValue: 'Gas Station', id: 'waypoint', placeholder: 'Enter Type' })
+																					_react2.default.createElement('input', { type: 'text', style: { width: '100%' }, className: 'form-control', defaultValue: this.props.default.keyword, id: 'waypoint', placeholder: 'Enter Type' })
 																			)
 																	)
 															),
@@ -28067,7 +28229,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var test;
+	var that;
 	
 	var Maps = function (_Component) {
 	  _inherits(Maps, _Component);
@@ -28080,8 +28242,10 @@
 	    _this.state = {
 	      directionService: null,
 	      directionsDisplay: null,
+	      service: null,
 	      map: null
 	    };
+	    that = _this;
 	    return _this;
 	  }
 	
@@ -28094,7 +28258,17 @@
 	        center: { lat: -34.397, lng: 150.644 },
 	        zoom: 8
 	      });
+	      this.state.service = new google.maps.places.PlacesService(this.state.map);
 	      this.state.directionsDisplay.setMap(this.state.map);
+	    }
+	  }, {
+	    key: 'addMarker',
+	    value: function addMarker(lat, lng) {
+	      var marker = new google.maps.Marker({
+	        position: { lat: lat, lng: lng },
+	        map: this.state.map,
+	        title: 'Hello World!'
+	      });
 	    }
 	  }, {
 	    key: 'calculateAndDisplayRoute',
@@ -28108,6 +28282,7 @@
 	        }, function (response, status) {
 	          if (status === 'OK') {
 	            that.state.directionsDisplay.setDirections(response);
+	            that.getLocations(response, status);
 	          } else {
 	            window.alert('Directions request failed due to ' + status);
 	          }
@@ -28115,9 +28290,90 @@
 	      }
 	    }
 	  }, {
+	    key: 'getLocations',
+	    value: function getLocations(result, status) {
+	      var distanceCheck = true;
+	      var routeCheck = true;
+	      var distance = 1;
+	      if (status == google.maps.DirectionsStatus.OK) {
+	        var totalRouteDistance = parseFloat(result.routes[0].legs[0].distance.value);
+	        var totalRouteTime = parseFloat(result.routes[0].legs[0].duration.value);
+	        var totalDistance = 0;
+	        var prevLatLng = result.routes[0].legs[0].start_location;
+	        if (distance != null && distance > 0) {
+	          var startDistance = distance;
+	          for (var i = 0; i < result.routes[0].legs.length; i++) {
+	            var leg = result.routes[0].legs[i];
+	            for (var j = 0; j < leg.steps.length; j++) {
+	              var step = leg.steps[j];
+	              for (var k = 0; k < step.path.length; k++) {
+	                var path = step.path[k];
+	                totalDistance = parseFloat(totalDistance + this.getDistance(path, prevLatLng));
+	                if (totalDistance > startDistance * 1000 && distanceCheck) {
+	                  distanceCheck = false;
+	                  this.addMarker(path.lat(), path.lng());
+	                  this.performSearch(path.lat(), path.lng());
+	                  //loc.push(path);
+	                  //console.log(path)
+	                }
+	                prevLatLng = path;
+	              }
+	            }
+	          }
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'getDistance',
+	    value: function getDistance(p1, p2) {
+	      var R = 6378137;
+	      var dLat = this.rad(p2.lat() - p1.lat());
+	      var dLong = this.rad(p2.lng() - p1.lng());
+	      var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(this.rad(p1.lat())) * Math.cos(this.rad(p2.lat())) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
+	      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	      var d = R * c;
+	      return d;
+	    }
+	  }, {
+	    key: 'rad',
+	    value: function rad(x) {
+	      return x * Math.PI / 180;
+	    }
+	  }, {
+	    key: 'performSearch',
+	    value: function performSearch(lat, lng) {
+	      this.state.service.nearbySearch({
+	        location: { lat: lat, lng: lng },
+	        radius: 5000,
+	        keyword: this.props.direction.keyword
+	      }, that.callback);
+	    }
+	  }, {
+	    key: 'performRadarSearch',
+	    value: function performRadarSearch(lat, lng) {
+	      console.log(lat, lng, this.props.direction.keyword);
+	      var request = {
+	        location: { lat: lat, lng: lng },
+	        radius: 5000,
+	        keyword: this.props.direction.keyword
+	      };
+	      this.state.service.radarSearch(request, that.callback);
+	    }
+	  }, {
+	    key: 'callback',
+	    value: function callback(results, status) {
+	      if (status !== google.maps.places.PlacesServiceStatus.OK) {
+	        console.error(status);
+	        return;
+	      }
+	      for (var i = 0, result; result = results[i]; i++) {
+	        console.log(result);
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      this.calculateAndDisplayRoute(this.props.location.origin, this.props.location.destination);
+	      this.calculateAndDisplayRoute(this.props.direction.origin, this.props.direction.destination);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -28130,6 +28386,92 @@
 	}(_react.Component);
 	
 	exports.default = Maps;
+
+/***/ },
+/* 242 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(172);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Breadcrumb = function (_Component) {
+	  _inherits(Breadcrumb, _Component);
+	
+	  function Breadcrumb() {
+	    _classCallCheck(this, Breadcrumb);
+	
+	    return _possibleConstructorReturn(this, (Breadcrumb.__proto__ || Object.getPrototypeOf(Breadcrumb)).apply(this, arguments));
+	  }
+	
+	  _createClass(Breadcrumb, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "section",
+	        { className: "sub-header" },
+	        _react2.default.createElement("div", { className: "search-bar horizontal collapse", id: "redefine-search-form" }),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "breadcrumb-wrapper" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "container" },
+	            _react2.default.createElement(
+	              "ol",
+	              { className: "breadcrumb" },
+	              _react2.default.createElement(
+	                "li",
+	                null,
+	                _react2.default.createElement(
+	                  "a",
+	                  { href: "index-directory.html" },
+	                  _react2.default.createElement("i", { className: "fa fa-home" })
+	                )
+	              ),
+	              _react2.default.createElement(
+	                "li",
+	                null,
+	                _react2.default.createElement(
+	                  "a",
+	                  { href: "#" },
+	                  "Page "
+	                )
+	              ),
+	              _react2.default.createElement(
+	                "li",
+	                { className: "active" },
+	                "Detail "
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Breadcrumb;
+	}(_react.Component);
+	
+	exports.default = Breadcrumb;
 
 /***/ }
 /******/ ]);

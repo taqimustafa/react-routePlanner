@@ -12,6 +12,10 @@ class SidebarList extends Component {
   componentDidMount() {
    	var autocompleteOrigin = new google.maps.places.Autocomplete(document.getElementById('origin'));
    	var autocompleteDestination = new google.maps.places.Autocomplete(document.getElementById('destination'));
+  	this.setState({
+			origin:this.props.default.origin,
+			destination:this.props.default.destination
+		});
   }
   handleOriginChange(e) {
    	this.state.origin = e.target.value;
@@ -35,7 +39,7 @@ class SidebarList extends Component {
 	              <div className="form-group">
 	                <label htmlFor="location">Start Location</label>
 	                <div className="input-group location">
-	                  <input id="origin" type="text" className="form-control" onChange={this.handleOriginChange.bind(this)} placeholder="Enter Start Address" />
+	                  <input id="origin" type="text" className="form-control" defaultValue={this.props.default.origin} onChange={this.handleOriginChange.bind(this)} placeholder="Enter Start Address" />
 	                  <span className="input-group-addon"><i className="fa fa-map-marker geolocation"/></span>
 	                </div>
 	              </div>
@@ -52,7 +56,7 @@ class SidebarList extends Component {
 	              <div className="form-group">
 	                <label htmlFor="location">End Location</label>
 	                <div className="input-group location">
-	                  <input id="destination" type="text" className="form-control" onChange={this.handleDestinationChange.bind(this)} placeholder="Enter Destination Address" />
+	                  <input id="destination" type="text" className="form-control" defaultValue={this.props.default.destination} onChange={this.handleDestinationChange.bind(this)} placeholder="Enter Destination Address" />
 	                  <span className="input-group-addon"><i className="fa fa-map-marker geolocation"/></span>
 	                </div>
 	              </div>
@@ -61,7 +65,7 @@ class SidebarList extends Component {
 	              <div className="form-group">
 	                <label htmlFor="location">Waypoints</label>
 	                <div className="input-group location"  style={{width: '100%'}}>
-	                  <input type="text" style={{width: '100%'}} className="form-control" defaultValue="Gas Station" id="waypoint" placeholder="Enter Type" />
+	                  <input type="text" style={{width: '100%'}} className="form-control" defaultValue={this.props.default.keyword} id="waypoint" placeholder="Enter Type" />
 	                </div>
 	              </div>
 	            </div>
