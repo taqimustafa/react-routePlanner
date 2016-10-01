@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { Link } from "react-router"
+
+import Card from './ListCards';
 
 class SidebarList extends Component {
 	constructor(props, context) {
     super();
 		this.state = {
-	    origin: null,
-	    destination: null
+	    displayType:"results list"
 	  };
   }
   componentDidMount() {
@@ -17,14 +19,21 @@ class SidebarList extends Component {
 			destination:this.props.default.destination
 		});
   }
-  handleOriginChange(e) {
-   	this.state.origin = e.target.value;
+	handleDisplayGridEvent(e) {
+   	this.setState({
+   		displayType:"results grid"
+   	});
 	}
-	handleDestinationChange(e) {
-   	this.state.destination = e.target.value;
+	handleDisplayListEvent(e) {
+   	this.setState({
+   		displayType:"results list"
+   	});
 	}
 	handleSubmitEvent(e){
-		this.props.updateState(this.state.origin,this.state.destination);
+		var origin = ReactDOM.findDOMNode(this.refs.origin).value;
+		var destination = ReactDOM.findDOMNode(this.refs.destination).value;
+		var keyword = ReactDOM.findDOMNode(this.refs.keyword).value;
+		this.props.updateState(origin,destination,keyword);
 	}
   render() {
     return (
@@ -39,7 +48,7 @@ class SidebarList extends Component {
 	              <div className="form-group">
 	                <label htmlFor="location">Start Location</label>
 	                <div className="input-group location">
-	                  <input id="origin" type="text" className="form-control" defaultValue={this.props.default.origin} onChange={this.handleOriginChange.bind(this)} placeholder="Enter Start Address" />
+	                  <input id="origin" type="text" className="form-control" defaultValue={this.props.default.origin} ref="origin" placeholder="Enter Start Address" />
 	                  <span className="input-group-addon"><i className="fa fa-map-marker geolocation"/></span>
 	                </div>
 	              </div>
@@ -56,7 +65,7 @@ class SidebarList extends Component {
 	              <div className="form-group">
 	                <label htmlFor="location">End Location</label>
 	                <div className="input-group location">
-	                  <input id="destination" type="text" className="form-control" defaultValue={this.props.default.destination} onChange={this.handleDestinationChange.bind(this)} placeholder="Enter Destination Address" />
+	                  <input id="destination" type="text" className="form-control" defaultValue={this.props.default.destination} ref="destination" placeholder="Enter Destination Address" />
 	                  <span className="input-group-addon"><i className="fa fa-map-marker geolocation"/></span>
 	                </div>
 	              </div>
@@ -65,7 +74,7 @@ class SidebarList extends Component {
 	              <div className="form-group">
 	                <label htmlFor="location">Waypoints</label>
 	                <div className="input-group location"  style={{width: '100%'}}>
-	                  <input type="text" style={{width: '100%'}} className="form-control" defaultValue={this.props.default.keyword} id="waypoint" placeholder="Enter Type" />
+	                  <input type="text" style={{width: '100%'}} className="form-control" defaultValue={this.props.default.keyword} ref="keyword" placeholder="Enter Type" />
 	                </div>
 	              </div>
 	            </div>
@@ -80,11 +89,18 @@ class SidebarList extends Component {
             <h3 className="pull-left">Results </h3>
             <div className="buttons pull-right">
               <span>Display: </span>
-              <span className="icon active" id="display-grid"><i className="fa fa-th" /></span>
-              <span className="icon" id="display-list"><i className="fa fa-th-list" /></span>
+              <span className="icon active" onClick={this.handleDisplayListEvent.bind(this)}><i className="fa fa-th-list" /></span>
+              <span className="icon" onClick={this.handleDisplayGridEvent.bind(this)}><i className="fa fa-th" /></span>
             </div>
           </header>
-          <ul className="results grid">
+          <ul className={this.state.displayType}>
+	          {
+	          	this.props.default.places.map((result, i) => {
+								return (
+									<Card key={i} place={result}></Card>
+								)
+							})
+	          }
           </ul>
         </div>
       </div>

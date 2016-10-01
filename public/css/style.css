@@ -3914,6 +3914,8 @@ body.map-fullscreen #map {
 }
 .map-canvas .items-list {
   width: 35%;
+  max-height: 600px;
+  overflow-y: scroll;
 }
 .map-canvas .results.list li:last-child {
   margin-bottom: 0;

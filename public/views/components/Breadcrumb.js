@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from "react-router"
 
 class Breadcrumb extends Component {
   render() {
@@ -9,9 +8,8 @@ class Breadcrumb extends Component {
         <div className="breadcrumb-wrapper">
           <div className="container">
             <ol className="breadcrumb">
-              <li><a href="index-directory.html"><i className="fa fa-home" /></a></li>
-              <li><a href="#">Page </a></li>
-              <li className="active">Detail </li>
+              <li><a href="/"><i className="fa fa-home" /></a></li>
+              <li><a>{this.props.name}</a></li>
             </ol>
           </div>
         </div>

@@ -1,46 +1,70 @@
 import React, { Component } from 'react';
 var that;
+var placesArray = new Array();
+var placesIdArray = new Array();
+var MapObject = {
+  directionService:null,
+  directionsDisplay:null,
+  service:null,
+  map:null,
+};
+var counter = 0;
 class Maps extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      directionService:null,
-      directionsDisplay:null,
-      service:null,
-      map:null
+      origin:null,
+      destination:null,
+      keyword:null
     }
     that = this;
   }
   componentDidMount() {
-    this.state.directionsService = new google.maps.DirectionsService;
-    this.state.directionsDisplay = new google.maps.DirectionsRenderer;
-    this.state.map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: -34.397, lng: 150.644},
-      zoom: 8
+    MapObject.directionsService = new google.maps.DirectionsService;
+    MapObject.directionsDisplay = new google.maps.DirectionsRenderer;
+    MapObject.directionsDisplay.setOptions({
+      suppressMarkers: true,
+      polylineOptions: {
+        strokeWeight: 4,
+        strokeOpacity: 0.7,
+        strokeColor:  '#ff4330',
+      }
     });
-    this.state.service = new google.maps.places.PlacesService(this.state.map);
-    this.state.directionsDisplay.setMap(this.state.map);
+    MapObject.map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat:25.2048, lng:55.2708},
+      zoom: 10,
+      styles : [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#46bcec"},{"visibility":"on"}]}]
+    });
+    MapObject.service = new google.maps.places.PlacesService(MapObject.map);
+    MapObject.directionsDisplay.setMap(MapObject.map);
   }
   addMarker(lat,lng){
     var marker = new google.maps.Marker({
       position: {lat: lat, lng: lng},
-      map: this.state.map,
+      map: MapObject.map,
       title: 'Hello World!'
     });
   }
   calculateAndDisplayRoute(origin, destination) {
+    this.setState({
+      origin:this.props.direction.origin,
+      destination:this.props.direction.destination,
+      keyword:this.props.direction.keyword,
+    })
     var that = this;
-    if(this.state.directionsService){
-      this.state.directionsService.route({
+    if(MapObject.directionsService){
+      MapObject.directionsService.route({
         origin: origin,
         destination: destination,
-        travelMode: 'DRIVING'
+        travelMode: 'DRIVING',
+        avoidTolls:false,
+        avoidHighways:false
       }, function(response, status) {
         if (status === 'OK') {
-          that.state.directionsDisplay.setDirections(response);
+          MapObject.directionsDisplay.setDirections(response);
           that.getLocations(response,status);
         } else {
-          window.alert('Directions request failed due to ' + status);
+          console.log('Directions request failed due to ' + status);
         }
       });
     }
@@ -65,10 +89,7 @@ class Maps extends Component {
               totalDistance = parseFloat(totalDistance + this.getDistance(path, prevLatLng));
               if (totalDistance > startDistance * 1000 && distanceCheck) {
                 distanceCheck = false;
-                this.addMarker(path.lat(),path.lng());
                 this.performSearch(path.lat(),path.lng());
-                //loc.push(path);
-                //console.log(path)
               }
               prevLatLng = path;
             }
@@ -90,32 +111,75 @@ class Maps extends Component {
     return x * Math.PI / 180;
   }
   performSearch(lat,lng) {
-    this.state.service.nearbySearch({
+    MapObject.service.nearbySearch({
       location: {lat: lat, lng: lng},
       radius: 5000,
       keyword: this.props.direction.keyword
     }, that.callback);
-  }
-  performRadarSearch(lat,lng) {
-    console.log(lat,lng,this.props.direction.keyword);
-    var request = {
-      location: {lat: lat, lng: lng},
-      radius:5000,
-      keyword: this.props.direction.keyword
-    };
-    this.state.service.radarSearch(request, that.callback);
   }
   callback(results, status) {
     if (status !== google.maps.places.PlacesServiceStatus.OK) {
       console.error(status);
       return;
     }
-    for (var i = 0, result; result = results[i]; i++) {
-      console.log(result);
+    placesIdArray = results;
+    counter = 0;
+    that.getPlaces();
+  }
+  getPlaces(){
+    if(placesIdArray && counter < placesIdArray.length){
+      this.getPlacesDetails(placesIdArray[counter].place_id);
+    }
+    else{
+      console.log('completed',counter,placesIdArray.length);
+      console.log(placesArray);
+      this.props.updatePlaces(placesArray);
     }
   }
+  getPlacesDetails(placeId){
+    MapObject.service.getDetails({
+      placeId: placeId
+    }, function(place, status) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        var marker = new google.maps.Marker({
+          map: MapObject.map,
+          position: place.geometry.location,
+          title:place.name
+        });
+        if(that.search(placeId,placesArray)){
+          placesArray.push(place);
+          that.props.updatePlaces(placesArray);
+        }
+      }
+      setTimeout(function(){
+        that.getPlaces();
+        counter++;
+      },10);
+    });
+  }
+  search(key, array){
+    var flag = true;
+    for (var i=0; i < array.length; i++) {
+      if (array[i].place_id === key) {
+        flag = false;
+      }
+    }
+    return flag;
+  }
   render() {
-    this.calculateAndDisplayRoute(this.props.direction.origin,this.props.direction.destination);
+    var renderFlag = true;
+    if(this.props.direction.origin == "" || this.props.direction.origin.localeCompare(this.state.origin) == 0){
+      renderFlag = false;
+    }
+    if(this.props.direction.destination == "" || this.props.direction.destination.localeCompare(this.state.destination) == 0){
+      renderFlag = false;
+    }
+    if(this.props.direction.keyword == "" || this.props.direction.keyword.localeCompare(this.state.keyword) == 0){
+      renderFlag = false;
+    }
+    if(renderFlag){
+      this.calculateAndDisplayRoute(this.props.direction.origin,this.props.direction.destination);
+    }
     return (
       <div>
         <div id="map"></div>

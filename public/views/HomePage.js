@@ -10,17 +10,25 @@ class HomePage extends Component {
 	constructor(props, context) {
     super();
 		this.state = {
-	    origin: 'islamabad',
-	    destination: 'karachi',
-	    keyword:'gas station'
+	    origin: '',
+	    destination: '',
+	    keyword:'',
+	    places:[]
 	  };
 	  that = this;
+	  console.log(this.props);
   }
-	updateLocation(origin,destination){
-		console.log(origin,destination);
+	updateLocation(origin,destination,keyword){
+		console.log(origin,destination,keyword);
 		that.setState({
 			origin:origin,
-			destination:destination
+			destination:destination,
+			keyword:keyword
+		});
+	}
+	renderCards(placesArray){
+		that.setState({
+			places:placesArray
 		});
 	}
 	render() {
@@ -29,9 +37,9 @@ class HomePage extends Component {
 				<Header />
 				<div className="map-canvas list-solid">
 					<div className="map">
-						<Maps direction={this.state}/>
+						<Maps updatePlaces={this.renderCards.bind(this)} direction={this.state}/>
 					</div>
-					<SidebarList updateState={this.updateLocation} default={this.state}/>
+					<SidebarList updateState={this.updateLocation.bind(this)} default={this.state}/>
 				</div>
 				<Footer />
 			</div>
