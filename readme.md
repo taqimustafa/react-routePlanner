@@ -7,7 +7,7 @@
 	`npm install`
 
 - Then execute command:
-  	`node app.js` (this will start Express App)
+  	`node server.js` (this will start Express App)
 
 - Open another terminal and in the project root execute:
   	`webpack -w` (this will build React Application)
